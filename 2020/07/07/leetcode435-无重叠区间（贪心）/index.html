@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="leetcode32:最长有效括号一.思路定义dp数组，dp[i]表示以下标i字符结尾的最长有效括号的长度。初始化全部为0。当遍历时，有效子串一定以’)’结尾。 从前往后遍历时，首先判断s[i]是否为’)’,之后还要判断和s[i]对应的位置是否为’(‘, 即 ,s[i - dp[i-1] - 1] 是否为’(‘。 若是，则需要判断[i , i-dp[i-1]-1] 之间是否也是有效括号，并加上中间">
+  <meta name="description" content="leetcode435:无重叠区间（贪心）一.题目描述给定一个区间的集合vector&lt;vector&gt;,找到需要移除区间的最小数量，使其余区间互不重叠。注：边界接触不代表边界重叠，如：[1,2],[2,3]两区间不重叠。 二.分析如果要找到需要移除的区间最小数量，可以把问题转化为：找到不重叠区间的最大数量。之后在用集合的总数减去不重叠区间的最大数量，就可以找到需要移除区间的最小数量。 若">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode32:最长有效括号">
-<meta property="og:url" content="http://yoursite.com/2020/07/04/leetcode32-%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7/index.html">
+<meta property="og:title" content="leetcode435:无重叠区间（贪心）">
+<meta property="og:url" content="http://yoursite.com/2020/07/07/leetcode435-%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4%EF%BC%88%E8%B4%AA%E5%BF%83%EF%BC%89/index.html">
 <meta property="og:site_name" content="Alan Faker">
-<meta property="og:description" content="leetcode32:最长有效括号一.思路定义dp数组，dp[i]表示以下标i字符结尾的最长有效括号的长度。初始化全部为0。当遍历时，有效子串一定以’)’结尾。 从前往后遍历时，首先判断s[i]是否为’)’,之后还要判断和s[i]对应的位置是否为’(‘, 即 ,s[i - dp[i-1] - 1] 是否为’(‘。 若是，则需要判断[i , i-dp[i-1]-1] 之间是否也是有效括号，并加上中间">
+<meta property="og:description" content="leetcode435:无重叠区间（贪心）一.题目描述给定一个区间的集合vector&lt;vector&gt;,找到需要移除区间的最小数量，使其余区间互不重叠。注：边界接触不代表边界重叠，如：[1,2],[2,3]两区间不重叠。 二.分析如果要找到需要移除的区间最小数量，可以把问题转化为：找到不重叠区间的最大数量。之后在用集合的总数减去不重叠区间的最大数量，就可以找到需要移除区间的最小数量。 若">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-04T03:04:13.000Z">
-<meta property="article:modified_time" content="2020-07-04T03:31:04.513Z">
+<meta property="article:published_time" content="2020-07-07T04:30:59.000Z">
+<meta property="article:modified_time" content="2020-07-07T04:48:44.641Z">
 <meta property="article:author" content="全能神">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/04/leetcode32-%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7/">
+<link rel="canonical" href="http://yoursite.com/2020/07/07/leetcode435-%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4%EF%BC%88%E8%B4%AA%E5%BF%83%EF%BC%89/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>leetcode32:最长有效括号 | Alan Faker</title>
+  <title>leetcode435:无重叠区间（贪心） | Alan Faker</title>
   
 
 
@@ -160,7 +160,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/04/leetcode32-%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/leetcode435-%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4%EF%BC%88%E8%B4%AA%E5%BF%83%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/a1.jpg">
@@ -173,7 +173,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          leetcode32:最长有效括号
+          leetcode435:无重叠区间（贪心）
         </h1>
 
         <div class="post-meta">
@@ -184,7 +184,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-07-04 11:04:13 / 修改时间：11:31:04" itemprop="dateCreated datePublished" datetime="2020-07-04T11:04:13+08:00">2020-07-04</time>
+              <time title="创建时间：2020-07-07 12:30:59 / 修改时间：12:48:44" itemprop="dateCreated datePublished" datetime="2020-07-07T12:30:59+08:00">2020-07-07</time>
             </span>
 
           
@@ -198,13 +198,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="leetcode32-最长有效括号"><a href="#leetcode32-最长有效括号" class="headerlink" title="leetcode32:最长有效括号"></a>leetcode32:最长有效括号</h1><h2 id="一-思路"><a href="#一-思路" class="headerlink" title="一.思路"></a>一.思路</h2><p>定义dp数组，dp[i]表示以下标i字符结尾的最长有效括号的长度。初始化全部为0。当遍历时，有效子串一定以’)’结尾。</p>
-<p>从前往后遍历时，首先判断s[i]是否为’)’,之后还要判断和s[i]对应的位置是否为’(‘, 即 ,<strong>s[i - dp[i-1] - 1]</strong> 是否为’(‘。</p>
-<p>若是，则需要判断<br><strong>[i , i-dp[i-1]-1]</strong> 之间是否也是有效括号，并加上中间有效括号的长度。即 </p>
-<p><strong>dp[i] = dp[i-1] + 2</strong>。</p>
-<p>最后，则需要判断[i , i-dp[i-1]-1]之外是否存在有效括号可以与其相接。其中[i , i-dp[i-1]-1]之外的有效括号结尾位置为 <strong>i - dp[i-1]-  2</strong>，也等于<strong>i - dp[i]</strong>则需要加上该有效括号之前邻接的有效括号的长度,即</p>
-<p><strong>dp[i] += dp[ i - dp[i] ]</strong>。</p>
-<h2 id="二-代码"><a href="#二-代码" class="headerlink" title="二.代码"></a>二.代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">longestValidParentheses</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;dp(len, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">')'</span> &amp;&amp; i - dp[i - <span class="number">1</span>] - <span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; s[i - dp[i - <span class="number">1</span>] - <span class="number">1</span>] == <span class="string">'('</span>) &#123;</span><br><span class="line">                dp[i] = <span class="number">2</span> + dp[i - <span class="number">1</span>] ;</span><br><span class="line">                <span class="keyword">if</span> (i - dp[i] &gt;= <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i] += dp[i - dp[i]];</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                res = <span class="built_in">max</span>(res, dp[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="leetcode435-无重叠区间（贪心）"><a href="#leetcode435-无重叠区间（贪心）" class="headerlink" title="leetcode435:无重叠区间（贪心）"></a>leetcode435:无重叠区间（贪心）</h1><h2 id="一-题目描述"><a href="#一-题目描述" class="headerlink" title="一.题目描述"></a>一.题目描述</h2><p>给定一个区间的集合vector&lt;vector<int>&gt;,找到需要移除区间的最小数量，使其余区间互不重叠。注：<strong>边界接触不代表边界重叠</strong>，如：[1,2],[2,3]两区间不重叠。</p>
+<h2 id="二-分析"><a href="#二-分析" class="headerlink" title="二.分析"></a>二.分析</h2><p>如果要找到需要移除的区间最小数量，可以把问题转化为：找到不重叠区间的最大数量。之后在用集合的总数减去不重叠区间的最大数量，就可以找到需要移除区间的最小数量。</p>
+<p>若要求区间集合中，不重叠区间的最大数量，可以使用贪心算法。将区间按照结束位置排序，迭代判断时，只需要记录当前区间覆盖的最大位置end，之后判断当前区间的开始位置是否大于等于end，即<strong>end&lt;=intervals[i][0]</strong>，若是，则可以更新end，<strong>end=intervals[i][1]</strong>。由于集合已经按结束位置从小到大排序，因此每次迭代更新都会寻找不重叠的最小end，以便于之后的迭代可以容纳更多区间。</p>
+<p>1.两个区间不重叠：<br>该情况下，不需要移除任何一个区间，并且将end更新为后面区间的结束位置。</p>
+<p>2.两个区间重叠，且后一个区间的终点在前一个区间终点之前。如：[1,3],[0,2],这种情况下，我们只使用后一个区间，即先结束的区间，这样可以为之后的区间留下更多空间。</p>
+<p>3.两个区间重叠，其前一个区间的终点在后一个区间终点之前，如：[0,2],[1,3],这种情况下，我们只使用前一个区间，即先结束的区间，这样可以为之后的区间留下更多空间。</p>
+<h2 id="三-代码"><a href="#三-代码" class="headerlink" title="三.代码"></a>三.代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">ccmp</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (v1[<span class="number">1</span>] == v2[<span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">return</span> v1[<span class="number">0</span>] &lt; v2[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> v1[<span class="number">1</span>] &lt; v2[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">eraseOverlapIntervals</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; intervals)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> row = intervals.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span>(row==<span class="number">0</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    sort(intervals.<span class="built_in">begin</span>(), intervals.<span class="built_in">end</span>(), ccmp);</span><br><span class="line">    <span class="keyword">int</span> temp = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">end</span> = intervals[<span class="number">0</span>][<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; row; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">end</span> &lt;= intervals[i][<span class="number">0</span>]) &#123;</span><br><span class="line">            temp++;</span><br><span class="line">            <span class="built_in">end</span> = intervals[i][<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> row - temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -221,13 +221,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/30/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/" rel="prev" title="正则表达式匹配">
-      <i class="fa fa-chevron-left"></i> 正则表达式匹配
+    <a href="/2020/07/05/O%EF%BC%88n%EF%BC%89%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%A7%A3%E6%9D%A8%E8%BE%89%E4%B8%89%E8%A7%92/" rel="prev" title="O（n）空间复杂度解杨辉三角">
+      <i class="fa fa-chevron-left"></i> O（n）空间复杂度解杨辉三角
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/05/O%EF%BC%88n%EF%BC%89%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%A7%A3%E6%9D%A8%E8%BE%89%E4%B8%89%E8%A7%92/" rel="next" title="O（n）空间复杂度解杨辉三角">
-      O（n）空间复杂度解杨辉三角 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -287,7 +284,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#leetcode32-最长有效括号"><span class="nav-number">1.</span> <span class="nav-text">leetcode32:最长有效括号</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-思路"><span class="nav-number">1.1.</span> <span class="nav-text">一.思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-代码"><span class="nav-number">1.2.</span> <span class="nav-text">二.代码</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#leetcode435-无重叠区间（贪心）"><span class="nav-number">1.</span> <span class="nav-text">leetcode435:无重叠区间（贪心）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-题目描述"><span class="nav-number">1.1.</span> <span class="nav-text">一.题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-分析"><span class="nav-number">1.2.</span> <span class="nav-text">二.分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-代码"><span class="nav-number">1.3.</span> <span class="nav-text">三.代码</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
