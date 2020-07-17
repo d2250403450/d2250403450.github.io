@@ -155,6 +155,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/17/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88DP-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a1.jpg">
+      <meta itemprop="name" content="全能神">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alan Faker">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/17/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88DP-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%EF%BC%89/" class="post-title-link" itemprop="url">最长上升子序列（DP+二分搜索）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-17 12:31:22 / 修改时间：14:19:45" itemprop="dateCreated datePublished" datetime="2020-07-17T12:31:22+08:00">2020-07-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="最长上升子序列（DP-二分搜索）"><a href="#最长上升子序列（DP-二分搜索）" class="headerlink" title="最长上升子序列（DP+二分搜索）"></a>最长上升子序列（DP+二分搜索）</h1><h2 id="一-动态规划"><a href="#一-动态规划" class="headerlink" title="一.动态规划"></a>一.动态规划</h2><h3 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h3><p>dp[i]为考虑前i个元素中最长上升子序列的长度。则每个dp[i]的初始值为该元素本身，即一个字母的序列，则dp[]数组初始化为1。当遍历到第i个元素时，以该元素为起点，向前遍历判断是否存在nums[j]&lt;nums[i],即判断是否存在递增子序列以nums[i]即结尾，且前一个元素为nums[j]，则dp[i]的值就为dp[j]+1。</p>
+<h3 id="动态规划方程："><a href="#动态规划方程：" class="headerlink" title="动态规划方程："></a>动态规划方程：</h3><p><strong>dp[i]=max(dp[i],dp[j]+1)</strong></p>
+<p>其中，<strong>0&lt;=j&lt;i</strong>,且<strong>nums[j]&lt;nums[i]</strong></p>
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;dp(n, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] &lt; nums[i]) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *max_element(dp.<span class="built_in">begin</span>(), dp.<span class="built_in">end</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二-贪心-二分搜索"><a href="#二-贪心-二分搜索" class="headerlink" title="二.贪心+二分搜索"></a>二.贪心+二分搜索</h2><h3 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h3><p>首先基于贪心思想，若要让递增子序列尽可能长，则需要让子序列上升的速度尽量慢，则最后一个位置加入的数应该尽量小，以便后续元素能更容易加入该子序列中。</p>
+<p>基于以上思想，维护一个tail[i]数组，表示长度为i的上升子序列末尾元素可以取到的最小值。使用额外的指针记录当前最长上升子序列的长度，finish。</p>
+<p>遍历数组nums时，<br>1:若<strong>nums[i]&gt;tail[finish]</strong>,说明该元素可以直接加入最长上升子序列队尾，则<strong>tail[++finish]=nums[i]</strong>。</p>
+<p>2:若<strong>nums[i]&lt;=tail[finish]</strong>，则需要在tail数组中查找第一个小于nums[i]的数，tail[k]，并更新tail[k+1]=nums[i],即长度为k+1的数组末尾可以取得更小的值。</p>
+<h3 id="证明："><a href="#证明：" class="headerlink" title="证明："></a>证明：</h3><p>该贪心算法时成立的，因为tail[i]是关于 i 单调递增的。因为如果tail[j] &gt;= tail[i] 且 j &lt; i，我们考虑从长度为 i 的最长上升子序列的末尾删除 i-j 个元素，那么这个序列长度变为 j ，且第 j 个元素 x（末尾元素）必然小于 tail[i]，也就小于 tail[j]。那么我们就找到了一个长度为 j 的最长上升子序列，并且末尾元素比 tail[j] 小，从而产生了矛盾。因此数组 tail[] 的单调性得证。</p>
+<p>因为有了单调性，因此在查找第一个小于一个数的数时，可以使用二分法；其次，数组tail为递增的，因此数组tail的长度即为最长上升子序列的长度。</p>
+<h3 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h3><table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>9</td>
+<td>10</td>
+<td>2</td>
+<td>5</td>
+<td>3</td>
+<td>7</td>
+</tr>
+</tbody></table>
+<p>tail1:<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 0 | 0 | 0 | 0 | 0 | 0 |</p>
+<p>tail2:<br>9&gt;1，因此直接将9加入tail结尾。<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 9 | 0 | 0 | 0 | 0 | 0 |</p>
+<p>tail3:<br>10&gt;9，因此直接将10加入tail结尾。<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 9 | 10 | 0 | 0 | 0 | 0 |</p>
+<p>tail4:<br>1&lt;2&lt;9，最长上升子序列长度不变，但用2取代9。</p>
+<p><strong>此时不会影响当前结果。若再次遇到大于10的元素，tail长度还会增加。但是finish为1，即长度为2的最长上升子序列结尾元素的最小值变为更小的2，因此方便长度为3的最长上升子序列结尾更小，使得总的最长上升子序列能够最大化。</strong><br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 10 | 0 | 0 | 0 | 0 |</p>
+<p>tail5:<br>5&lt;10，最长上升子序列长度不变，但用5取代10<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 5 | 0 | 0 | 0 | 0 |</p>
+<p>tail6:<br>3&lt;5，最长上升子序列长度不变，但用3取代5<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 3 | 0 | 0 | 0 | 0 |</p>
+<p>tail7:<br>7&gt;3，因此直接将7加入tail结尾。<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 3 | 7 | 0 | 0 | 0 |</p>
+<h3 id="代码：-1"><a href="#代码：-1" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">if</span> (n &lt;= <span class="number">1</span>)<span class="keyword">return</span> n;</span><br><span class="line">	<span class="keyword">int</span> finish = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;tail(n, <span class="number">0</span>);</span><br><span class="line">	tail[<span class="number">0</span>] = nums[finish];</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (nums[i] &gt; tail[finish]) &#123;</span><br><span class="line">			finish++;</span><br><span class="line">			tail[finish] = nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">int</span> left = <span class="number">0</span>, right = finish, pos = <span class="number">-1</span>;</span><br><span class="line">			<span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">				<span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">				<span class="keyword">if</span> (tail[mid] &lt; nums[i]) &#123;</span><br><span class="line">					pos = mid;</span><br><span class="line">					left = mid + <span class="number">1</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> &#123;</span><br><span class="line">					right = mid - <span class="number">1</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			tail[pos + <span class="number">1</span>] = nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> finish + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/16/leetcode785-%E5%88%A4%E6%96%AD%E4%BA%8C%E5%88%86%E5%9B%BE%EF%BC%88BFS%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -816,65 +916,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/30/%E5%8D%95%E8%B0%83%E6%A0%88-leetcode42%E6%8E%A5%E9%9B%A8%E6%B0%B4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a1.jpg">
-      <meta itemprop="name" content="全能神">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alan Faker">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/30/%E5%8D%95%E8%B0%83%E6%A0%88-leetcode42%E6%8E%A5%E9%9B%A8%E6%B0%B4/" class="post-title-link" itemprop="url">单调栈:leetcode42接雨水</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-30 09:33:22 / 修改时间：09:53:28" itemprop="dateCreated datePublished" datetime="2020-06-30T09:33:22+08:00">2020-06-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="单调栈-leetcode42接雨水"><a href="#单调栈-leetcode42接雨水" class="headerlink" title="单调栈:leetcode42接雨水"></a>单调栈:leetcode42接雨水</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">trap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; <span class="built_in">height</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">height</span>.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (len &lt; <span class="number">3</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt;g;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (!g.empty() &amp;&amp; <span class="built_in">height</span>[i] &gt;= <span class="built_in">height</span>[g.top()])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> t = g.top();</span><br><span class="line">            g.pop();</span><br><span class="line">            <span class="keyword">if</span> (g.empty())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> length = i - g.top() - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> deep = <span class="built_in">min</span>(<span class="built_in">height</span>[i], <span class="built_in">height</span>[g.top()]) - <span class="built_in">height</span>[t];</span><br><span class="line">            res += length*deep;</span><br><span class="line">        &#125;</span><br><span class="line">        g.push(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -955,7 +996,7 @@ src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

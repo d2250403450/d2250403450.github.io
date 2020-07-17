@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最长上升子序列（DP+二分搜索）一.动态规划分析：dp[i]为考虑前i个元素中最长上升子序列的长度。则每个dp[i]的初始值为该元素本身，即一个字母的序列，则dp[]数组初始化为1。当遍历到第i个元素时，以该元素为起点，向前遍历判断是否存在nums[j]&lt;nums[i],即判断是否存在递增子序列以nums[i]即结尾，且前一个元素为nums[j]，则dp[i]的值就为dp[j]+1。 动态规">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最长上升子序列（DP+二分搜索）">
+<meta property="og:url" content="http://yoursite.com/2020/07/17/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88DP-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%EF%BC%89/index.html">
+<meta property="og:site_name" content="Alan Faker">
+<meta property="og:description" content="最长上升子序列（DP+二分搜索）一.动态规划分析：dp[i]为考虑前i个元素中最长上升子序列的长度。则每个dp[i]的初始值为该元素本身，即一个字母的序列，则dp[]数组初始化为1。当遍历到第i个元素时，以该元素为起点，向前遍历判断是否存在nums[j]&lt;nums[i],即判断是否存在递增子序列以nums[i]即结尾，且前一个元素为nums[j]，则dp[i]的值就为dp[j]+1。 动态规">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-17T04:31:22.000Z">
+<meta property="article:modified_time" content="2020-07-17T06:19:45.715Z">
+<meta property="article:author" content="全能神">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/17/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88DP-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>最长上升子序列（DP+二分搜索） | Alan Faker</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Alan Faker</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/17/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88DP-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a1.jpg">
+      <meta itemprop="name" content="全能神">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alan Faker">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          最长上升子序列（DP+二分搜索）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-17 12:31:22 / 修改时间：14:19:45" itemprop="dateCreated datePublished" datetime="2020-07-17T12:31:22+08:00">2020-07-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="最长上升子序列（DP-二分搜索）"><a href="#最长上升子序列（DP-二分搜索）" class="headerlink" title="最长上升子序列（DP+二分搜索）"></a>最长上升子序列（DP+二分搜索）</h1><h2 id="一-动态规划"><a href="#一-动态规划" class="headerlink" title="一.动态规划"></a>一.动态规划</h2><h3 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h3><p>dp[i]为考虑前i个元素中最长上升子序列的长度。则每个dp[i]的初始值为该元素本身，即一个字母的序列，则dp[]数组初始化为1。当遍历到第i个元素时，以该元素为起点，向前遍历判断是否存在nums[j]&lt;nums[i],即判断是否存在递增子序列以nums[i]即结尾，且前一个元素为nums[j]，则dp[i]的值就为dp[j]+1。</p>
+<h3 id="动态规划方程："><a href="#动态规划方程：" class="headerlink" title="动态规划方程："></a>动态规划方程：</h3><p><strong>dp[i]=max(dp[i],dp[j]+1)</strong></p>
+<p>其中，<strong>0&lt;=j&lt;i</strong>,且<strong>nums[j]&lt;nums[i]</strong></p>
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;dp(n, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] &lt; nums[i]) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *max_element(dp.<span class="built_in">begin</span>(), dp.<span class="built_in">end</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二-贪心-二分搜索"><a href="#二-贪心-二分搜索" class="headerlink" title="二.贪心+二分搜索"></a>二.贪心+二分搜索</h2><h3 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h3><p>首先基于贪心思想，若要让递增子序列尽可能长，则需要让子序列上升的速度尽量慢，则最后一个位置加入的数应该尽量小，以便后续元素能更容易加入该子序列中。</p>
+<p>基于以上思想，维护一个tail[i]数组，表示长度为i的上升子序列末尾元素可以取到的最小值。使用额外的指针记录当前最长上升子序列的长度，finish。</p>
+<p>遍历数组nums时，<br>1:若<strong>nums[i]&gt;tail[finish]</strong>,说明该元素可以直接加入最长上升子序列队尾，则<strong>tail[++finish]=nums[i]</strong>。</p>
+<p>2:若<strong>nums[i]&lt;=tail[finish]</strong>，则需要在tail数组中查找第一个小于nums[i]的数，tail[k]，并更新tail[k+1]=nums[i],即长度为k+1的数组末尾可以取得更小的值。</p>
+<h3 id="证明："><a href="#证明：" class="headerlink" title="证明："></a>证明：</h3><p>该贪心算法时成立的，因为tail[i]是关于 i 单调递增的。因为如果tail[j] &gt;= tail[i] 且 j &lt; i，我们考虑从长度为 i 的最长上升子序列的末尾删除 i-j 个元素，那么这个序列长度变为 j ，且第 j 个元素 x（末尾元素）必然小于 tail[i]，也就小于 tail[j]。那么我们就找到了一个长度为 j 的最长上升子序列，并且末尾元素比 tail[j] 小，从而产生了矛盾。因此数组 tail[] 的单调性得证。</p>
+<p>因为有了单调性，因此在查找第一个小于一个数的数时，可以使用二分法；其次，数组tail为递增的，因此数组tail的长度即为最长上升子序列的长度。</p>
+<h3 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h3><table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>9</td>
+<td>10</td>
+<td>2</td>
+<td>5</td>
+<td>3</td>
+<td>7</td>
+</tr>
+</tbody></table>
+<p>tail1:<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 0 | 0 | 0 | 0 | 0 | 0 |</p>
+<p>tail2:<br>9&gt;1，因此直接将9加入tail结尾。<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 9 | 0 | 0 | 0 | 0 | 0 |</p>
+<p>tail3:<br>10&gt;9，因此直接将10加入tail结尾。<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 9 | 10 | 0 | 0 | 0 | 0 |</p>
+<p>tail4:<br>1&lt;2&lt;9，最长上升子序列长度不变，但用2取代9。</p>
+<p><strong>此时不会影响当前结果。若再次遇到大于10的元素，tail长度还会增加。但是finish为1，即长度为2的最长上升子序列结尾元素的最小值变为更小的2，因此方便长度为3的最长上升子序列结尾更小，使得总的最长上升子序列能够最大化。</strong><br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 10 | 0 | 0 | 0 | 0 |</p>
+<p>tail5:<br>5&lt;10，最长上升子序列长度不变，但用5取代10<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 5 | 0 | 0 | 0 | 0 |</p>
+<p>tail6:<br>3&lt;5，最长上升子序列长度不变，但用3取代5<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 3 | 0 | 0 | 0 | 0 |</p>
+<p>tail7:<br>7&gt;3，因此直接将7加入tail结尾。<br>| 0 | 1 | 2 | 3 | 4 | 5 | 6 |<br>| – | – | – | – | – | – |– |<br>| 1 | 2 | 3 | 7 | 0 | 0 | 0 |</p>
+<h3 id="代码：-1"><a href="#代码：-1" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">if</span> (n &lt;= <span class="number">1</span>)<span class="keyword">return</span> n;</span><br><span class="line">	<span class="keyword">int</span> finish = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;tail(n, <span class="number">0</span>);</span><br><span class="line">	tail[<span class="number">0</span>] = nums[finish];</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (nums[i] &gt; tail[finish]) &#123;</span><br><span class="line">			finish++;</span><br><span class="line">			tail[finish] = nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">int</span> left = <span class="number">0</span>, right = finish, pos = <span class="number">-1</span>;</span><br><span class="line">			<span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">				<span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">				<span class="keyword">if</span> (tail[mid] &lt; nums[i]) &#123;</span><br><span class="line">					pos = mid;</span><br><span class="line">					left = mid + <span class="number">1</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> &#123;</span><br><span class="line">					right = mid - <span class="number">1</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			tail[pos + <span class="number">1</span>] = nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> finish + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/16/leetcode785-%E5%88%A4%E6%96%AD%E4%BA%8C%E5%88%86%E5%9B%BE%EF%BC%88BFS%EF%BC%89/" rel="prev" title="leetcode785:判断二分图（BFS）">
+      <i class="fa fa-chevron-left"></i> leetcode785:判断二分图（BFS）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#最长上升子序列（DP-二分搜索）"><span class="nav-number">1.</span> <span class="nav-text">最长上升子序列（DP+二分搜索）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-动态规划"><span class="nav-number">1.1.</span> <span class="nav-text">一.动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分析："><span class="nav-number">1.1.1.</span> <span class="nav-text">分析：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划方程："><span class="nav-number">1.1.2.</span> <span class="nav-text">动态规划方程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码："><span class="nav-number">1.1.3.</span> <span class="nav-text">代码：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-贪心-二分搜索"><span class="nav-number">1.2.</span> <span class="nav-text">二.贪心+二分搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思路："><span class="nav-number">1.2.1.</span> <span class="nav-text">思路：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证明："><span class="nav-number">1.2.2.</span> <span class="nav-text">证明：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子："><span class="nav-number">1.2.3.</span> <span class="nav-text">例子：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码：-1"><span class="nav-number">1.2.4.</span> <span class="nav-text">代码：</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 
+src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
+</iframe>
+
+
+
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="全能神"
+      src="/images/a1.jpg">
+  <p class="site-author-name" itemprop="name">全能神</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">全能神</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
