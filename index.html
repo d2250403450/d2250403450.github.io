@@ -155,6 +155,85 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/18/leetcode97-%E4%BA%A4%E9%94%99%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a1.jpg">
+      <meta itemprop="name" content="全能神">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alan Faker">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/18/leetcode97-%E4%BA%A4%E9%94%99%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-title-link" itemprop="url">leetcode97:交错字符串</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-18 11:40:55 / 修改时间：12:10:51" itemprop="dateCreated datePublished" datetime="2020-07-18T11:40:55+08:00">2020-07-18</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="leetcode97-交错字符串"><a href="#leetcode97-交错字符串" class="headerlink" title="leetcode97:交错字符串"></a>leetcode97:交错字符串</h1><h2 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h2><p>给定三个字符串，s1,s2,s3，判断s3能否由s1和s2交错组成。</p>
+<h2 id="题目分析："><a href="#题目分析：" class="headerlink" title="题目分析："></a>题目分析：</h2><p>可以使用动态规划算法。dp[i][j]表示s1的前i个字符和s2的前j个字符，能否拼接成s3的前i+j个字符。</p>
+<p>1：当i=0,j=0,i+j=0时，空串和空串可以构成空串，因此dp[0][0]=true。</p>
+<p>2:当j==0时，即s2串取空串，只用s1串和s3串匹配，则若s1[i-1]==s3[i-1],dp[i][0]==true;</p>
+<p>3:当i==0时，即s1取空串，只用s2串和s3串匹配，则若s2[j-1]==s3[j-1],dp[0][j]==true;</p>
+<p>4：当i&gt;0时，若s1[i-1]==s3[i+j-1],且dp[i-1][j]==true。即s1的前i-1个字符和s2的前j个字符可以构成s3的前i+j-1个字符，且s1的第i个字符和s3的第i+j个字符相等，因此s1的第i个字符可以和s3的第i+j个字符匹配，则s1的前i个字符和s2的前j个字符可以构成s3的前i+j个字符。</p>
+<p>5：当j&gt;0时，若s2[j-1]==s3[i+j-1],且dp[i][j-1]==true。即s2的前j-1个字符和s1的前i个字符可以构成s3的前i+j-1个字符，且s2的第j个字符和s3的第i+j个字符相等，可以匹配，因此s1的前i个字符和s2的前j个字符可以构成s3的前i+j个字符。</p>
+<h2 id="动态规划方程："><a href="#动态规划方程：" class="headerlink" title="动态规划方程："></a>动态规划方程：</h2><p>dp[0][0]=true;</p>
+<p>1.j==0时：<strong>dp[i][0]=(s1[i-1]==s3[i-1])</strong></p>
+<p>2.i==0时：<strong>dp[0][j]=(s2[j-1]==s3[j-1])</strong></p>
+<p>3.i&gt;0时：<strong>dp[i][j]=dp[i-1][j]&amp;&amp;s1[i-1]==s3[i+j-1]</strong></p>
+<p>4.j&gt;0时：<strong>dp[i][j]=dp[i][j-1]&amp;&amp;s2[j-1]==s3[i+j-1]</strong></p>
+<p>条件1和条件2的关系为或，即只要两者之一成立即可，因此</p>
+<p><strong>dp[i][j]=(dp[i-1][j]&amp;&amp;s1[i-1]==s3[i+j-1])||(dp[i][j-1]&amp;&amp;s2[j-1]==s3[i+j-1])</strong></p>
+<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isInterleave</span><span class="params">(<span class="built_in">string</span> s1, <span class="built_in">string</span> s2, <span class="built_in">string</span> s3)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n1 = s1.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> n2 = s2.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> n3 = s3.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (n3 &gt; n1 + n2)<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;dp(n1 + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n2 + <span class="number">1</span>, <span class="literal">false</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n1; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s1[i - <span class="number">1</span>] == s3[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                dp[i][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n2; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s2[j - <span class="number">1</span>] == s3[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                dp[<span class="number">0</span>][j] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n1; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n2; j++) &#123;</span><br><span class="line">                <span class="keyword">int</span> p = i + j - <span class="number">1</span>;</span><br><span class="line">                dp[i][j] = (dp[i - <span class="number">1</span>][j] &amp;&amp; s1[i - <span class="number">1</span>] == s3[p]) || (dp[i][j - <span class="number">1</span>] &amp;&amp; s2[j - <span class="number">1</span>] == s3[p]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n1][n2];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过额外判断i，j是否等于0，可以简化判断步骤</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isInterleave</span><span class="params">(<span class="built_in">string</span> s1, <span class="built_in">string</span> s2, <span class="built_in">string</span> s3)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n1 = s1.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">int</span> n2 = s2.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">int</span> n3 = s3.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">if</span> (n3 &gt; n1 + n2)<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;dp(n1 + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n2 + <span class="number">1</span>, <span class="literal">false</span>));</span><br><span class="line">	dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n1; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= n2; j++) &#123;</span><br><span class="line">			<span class="keyword">int</span> p = i + j - <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span> (i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				dp[i][j] |= (dp[i - <span class="number">1</span>][j] &amp;&amp; s1[i - <span class="number">1</span>] == s3[p]);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				dp[i][j] |= (dp[i][j - <span class="number">1</span>] &amp;&amp; s2[j - <span class="number">1</span>] == s3[p]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp[n1][n2];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/17/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88DP-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -818,108 +897,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/30/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a1.jpg">
-      <meta itemprop="name" content="全能神">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alan Faker">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/30/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/" class="post-title-link" itemprop="url">正则表达式匹配</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-30 10:52:48" itemprop="dateCreated datePublished" datetime="2020-06-30T10:52:48+08:00">2020-06-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-05 12:07:26" itemprop="dateModified" datetime="2020-07-05T12:07:26+08:00">2020-07-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="正则表达式匹配"><a href="#正则表达式匹配" class="headerlink" title="正则表达式匹配"></a>正则表达式匹配</h1><h2 id="一-思路："><a href="#一-思路：" class="headerlink" title="一.思路："></a>一.思路：</h2><p>假设主串为 A，模式串为 B 从最后一步出发，需要关注最后进来的字符。假设 <strong>A 的长度为 n</strong>，<strong>B 的长度为 m</strong>，关注正则表达式 B 的最后一个字符是谁，它有三种可能，正常字符、* 和 .（点），那针对这三种情况讨论即可，如下：</p>
-<p>1.若B的最后一个字符是正常字符（非’<em>‘和’.’),则看*</em>A[n-1]是否等于B[m-1]<strong>。若相等，则继续比较</strong>A[n-2]和B[m-2]**。这就是子问题。</p>
-<p>2.若<strong>B的最后一个字符是’.’</strong>，则它能匹配任意字符，则直接继续比较<strong>A[n-2]和B[m-2]</strong>。</p>
-<p>3.若B的最后一个字符是’*’，则表示B[m-2]==c(任意字符)可以重复匹配0次或任意多次。两种情况分别讨论：</p>
-<p>(1)A[n-1]不是c或不匹配，则说明B中的’<em>‘匹配0次，即最后两个字符作废（”x *”作废），则*</em>继续匹配A[n-1]和B[m-3]**。</p>
-<p>(2)A[n-1]是c并且进行匹配 <strong>(A[n-1]==c||c==’.’)</strong>，则A向前移动一位，B中的’<em>‘继续匹配，则*</em>继续匹配A[n-2]和B[m-1]**。</p>
-<h2 id="二-动态规划分析"><a href="#二-动态规划分析" class="headerlink" title="二.动态规划分析"></a>二.动态规划分析</h2><p>bool dp[i][j]表示A的前i个字符和B的前j个字符能否匹配。</p>
-<h3 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h3><p>dp[0][0]表示两个空串匹配，则<strong>dp[0][0]=true</strong>;</p>
-<p>dp[i][0]（i!=0)表示主串A中有字符，而正则串中没有字符，则无法匹配，则<strong>dp[i][0]（i!=0)=false</strong>。</p>
-<h3 id="动态规划方程分析："><a href="#动态规划方程分析：" class="headerlink" title="动态规划方程分析："></a>动态规划方程分析：</h3><p><strong>对于情况1，2，dp[i][j]=dp[i-1][j-1]</strong></p>
-<p>对于情况3，两种情况分别讨论：</p>
-<p><strong>对于情况(1)，不使用’*’，直接忽视正则串的后两个字符，dp[i][j]=dp[i][j-2]</strong></p>
-<p><strong>对于情况(2)，使用’*’，则正则串B不动，主串A前移一位，dp[i][j]=dp[i-1][j]</strong></p>
-<h2 id="三-代码"><a href="#三-代码" class="headerlink" title="三.代码"></a>三.代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> p)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">int</span> m = p.<span class="built_in">size</span>();</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&gt;dp(n + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;(m + <span class="number">1</span>, <span class="literal">false</span>));</span><br><span class="line">	dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>; <span class="comment">//初始化</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">		dp[i][<span class="number">0</span>] = <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= m; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (p[j - <span class="number">1</span>] != <span class="string">'*'</span>) &#123; <span class="comment">//情况1，2</span></span><br><span class="line">				<span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; (s[i - <span class="number">1</span>] == p[j - <span class="number">1</span>] || p[j - <span class="number">1</span>] == <span class="string">'.'</span>)) &#123;</span><br><span class="line">					dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123; <span class="comment">//情况3</span></span><br><span class="line">				<span class="keyword">if</span> (j &gt;= <span class="number">2</span>) &#123; <span class="comment">//情况3（1）</span></span><br><span class="line">					dp[i][j] = dp[i][j] | dp[i][j - <span class="number">2</span>];</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> (i &gt;= <span class="number">1</span> &amp;&amp; j &gt;= <span class="number">2</span> &amp;&amp; (s[i - <span class="number">1</span>] == p[j - <span class="number">2</span>] || p[j - <span class="number">2</span>] == <span class="string">'.'</span>)) &#123; <span class="comment">//情况3（2）</span></span><br><span class="line">					dp[i][j] = dp[i][j] | dp[i - <span class="number">1</span>][j];</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp[n][m];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="leetcode44-通配符匹配"><a href="#leetcode44-通配符匹配" class="headerlink" title="leetcode44:通配符匹配"></a>leetcode44:通配符匹配</h1><p>与正则表达式不同，该条件下，‘*’可以与人一字符串匹配，包括空串。</p>
-<h2 id="一-思路：-1"><a href="#一-思路：-1" class="headerlink" title="一.思路："></a>一.思路：</h2><p>该问题中，字母和字母之间，字母和’?’之间的匹配是确定的，而’<em>‘与字母的匹配却是不确定的，因此需要进行枚举。假设A的长度为n，B的长度为m。和上一个问题相同，我们关注目前字符串B的最后一个字符，包括三种可能性，即：字母，’?’,’</em>‘。其中字母和’?’的处理与上一题字母和’.’的处理相同。</p>
-<p>1.若B的最后一个字符是正常字符（非’<em>‘和’？’),则看*</em>A[n-1]是否等于B[m-1]<strong>。若相等，则继续比较</strong>A[n-2]和B[m-2]**。</p>
-<p>2.若<strong>B的最后一个字符是’？’</strong>，则它能匹配任意字符，则直接继续比较<strong>A[n-2]和B[m-2]</strong>。</p>
-<p>3.若B的最后一个字符是’<em>‘，则表示B[m-1]可以重复A中的任意多个相同或不相同字符，由于’</em>‘可以匹配空串，则需要分两种情况讨论：</p>
-<p>（1）使用B[m-1]来匹配A[n-1],则继续匹配B[m-1]和A[n-2]，即’*’继续匹配，匹配的字符为A的下一个字符。</p>
-<p>（2）不使用B[m-1]来匹配A[n-1],则需要继续匹配B[m-2]和A[n-1],即’*’为空串，A[n-1]还没匹配，需要继续匹配。</p>
-<h2 id="二-动态规划分析-1"><a href="#二-动态规划分析-1" class="headerlink" title="二.动态规划分析"></a>二.动态规划分析</h2><p>bool dp[i][j]表示字符串s的前i个字符和模式串p的前j个字符是否能够匹配。</p>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p><strong>dp[0][0]=true</strong>,即两个空串可以匹配。</p>
-<p><strong>dp[i]<a href="i>0">0</a>=false</strong>，即当s串不为空，而p串为空时，无法完全匹配。</p>
-<p><strong>dp[0]<a href="j>0">j</a></strong>需要分情况讨论：<strong>因为只有’<em>‘可以匹配空串，因此只有当p的前j个字符均为’</em>‘才可以和s的空串匹配。</strong></p>
-<h3 id="动态规划方程"><a href="#动态规划方程" class="headerlink" title="动态规划方程"></a>动态规划方程</h3><p>对于情况1，2，<strong>dp[i][j]=dp[i-1][j-1]</strong></p>
-<p>对于情况3，分两种情况分别讨论：</p>
-<p>(1)不使用’<em>‘,即’</em>‘匹配空串，直接忽视p的当前字符，<strong>dp[i][j]=dp[i][j-1]</strong></p>
-<p>(2)使用’<em>‘，即串s向前移动继续匹配，串p继续使用’</em>‘不动，则<strong>dp[i][j]=dp[i-1][j]</strong></p>
-<h2 id="三-代码-1"><a href="#三-代码-1" class="headerlink" title="三.代码"></a>三.代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s,<span class="built_in">string</span> p)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n=s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> m=p.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&gt;dp(n+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;(m+<span class="number">1</span>,<span class="literal">false</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>]=<span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(p[j<span class="number">-1</span>]==<span class="string">'*'</span>)&#123;</span><br><span class="line">                dp[<span class="number">0</span>][j]=<span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(p[j<span class="number">-1</span>]!=<span class="string">'*'</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(p[j<span class="number">-1</span>]==s[i<span class="number">-1</span>]||p[j<span class="number">-1</span>]==<span class="string">'?'</span>)&#123;</span><br><span class="line">                        dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[i][j]=dp[i][j<span class="number">-1</span>]|dp[i<span class="number">-1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n][m];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -996,7 +977,7 @@ src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
