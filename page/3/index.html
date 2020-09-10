@@ -155,6 +155,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%A0%86%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a1.jpg">
+      <meta itemprop="name" content="全能神">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alan Faker">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/11/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%A0%86%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">排序算法——堆排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-11 18:32:11" itemprop="dateCreated datePublished" datetime="2020-06-11T18:32:11+08:00">2020-06-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-18 12:43:21" itemprop="dateModified" datetime="2020-07-18T12:43:21+08:00">2020-07-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="排序算法——堆排序"><a href="#排序算法——堆排序" class="headerlink" title="排序算法——堆排序"></a>排序算法——堆排序</h1><p>采用特殊数据结构——堆（大根堆，小根堆），可以被看作是一个近似完全的二叉树（除了最后一层不满)。其中需要注意待排序的数组大小和堆大小并不一样。待排序数组大小为数组元素个数，而堆大小表示多少个堆元素存储在该数组中，及只有[0,heap_size]的部分为堆中有效元素。<br>0&lt;=heap_size&lt;=数组大小。</p>
+<p>其中最大堆中的任意节点（除根）都要满足：a[PARENT[i]]&gt;=a[i]</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEFT(l) (l*2+1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RIGHT(r) (r*2+2)</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">PARENT</span><span class="params">(<span class="keyword">int</span> p)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> p / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> heap_size;</span><br></pre></td></tr></table></figure>
+<h2 id="一-维护堆的性质-adject函数"><a href="#一-维护堆的性质-adject函数" class="headerlink" title="一.维护堆的性质(adject函数)"></a>一.维护堆的性质(adject函数)</h2><p>输入一个给定数组及其一个下标，在调用该函数时，默认根节点为LEFT(i)，RIGHT(i)的二叉树都是最大堆。但此时a[i]可能小于其两个子节点，及a[i]&lt;LEFT(i)或 a[i]&lt;RIGHT(i)。</p>
+<p>调整策略为让该较小的a[i]逐级向下，从而使得以a[i]为根节点的子数重新遵循最大堆的性质。即将a[i]和a[i],a[LEFT(i)],a[RIGHT(i)]中较大的那个交换，之后递归处理该节点。当一次交换使得a[i]本身为三者最大时，停止递归交换过程。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">adject</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; a, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> left = LEFT(i);</span><br><span class="line">	<span class="keyword">int</span> right = RIGHT(i);</span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">max</span> = i;</span><br><span class="line">	<span class="keyword">if</span> (left&lt;heap_size &amp;&amp; a[left]&gt;a[<span class="built_in">max</span>]) &#123;</span><br><span class="line">		<span class="built_in">max</span> = left;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (right&lt;heap_size &amp;&amp; a[right]&gt;a[<span class="built_in">max</span>]) &#123;</span><br><span class="line">		<span class="built_in">max</span> = right;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">max</span> != i) &#123;</span><br><span class="line">		swap(a[i], a[<span class="built_in">max</span>]);</span><br><span class="line">		adject(a, <span class="built_in">max</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="时间复杂度："><a href="#时间复杂度：" class="headerlink" title="时间复杂度："></a>时间复杂度：</h3><p><strong>T(n)&lt;=T(2n/3)+O(1)</strong></p>
+<p><strong>T(n)=O(logn)</strong></p>
+<h2 id="二-建立堆（build-heap-）"><a href="#二-建立堆（build-heap-）" class="headerlink" title="二.建立堆（build_heap()）"></a>二.建立堆（build_heap()）</h2><p>由于adject 函数需要保证其左右子树已经为最大堆，因此在建立堆时需要自底向上建立。而起始位置从heap_size/2处开始，因为大于heap_size/2的都为叶子节点，而单个节点已经为堆，所以不需要处理。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build_heap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; a)</span> </span>&#123;</span><br><span class="line">	heap_size = a.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = heap_size / <span class="number">2</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">		adject(a, i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="时间复杂度：-1"><a href="#时间复杂度：-1" class="headerlink" title="时间复杂度："></a>时间复杂度：</h3><p><strong>可以在线性时间内，将一个无序数组构造成为一个最大堆</strong></p>
+<h2 id="三-堆排序算法"><a href="#三-堆排序算法" class="headerlink" title="三.堆排序算法"></a>三.堆排序算法</h2><p>在使用堆结构排序一个无序数组时，首先建立堆，得到a[0]处的最大值。之后将a[0]和堆的最后一个元素交换，之后，heap_size–，此时得到的堆，除了刚刚被换到a[0]处的根节点外，其子结点仍然是最大堆，则只需要调用adject（a，0）调整最大堆根节点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">heap_sort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; a)</span> </span>&#123;</span><br><span class="line">	build_heap(a);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">1</span>; i--) &#123;</span><br><span class="line">		swap(a[<span class="number">0</span>], a[i]);</span><br><span class="line">		heap_size--;</span><br><span class="line">		adject(a, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="时间复杂的："><a href="#时间复杂的：" class="headerlink" title="时间复杂的："></a>时间复杂的：</h3><p>build_heap()时间复杂度为O(n)；</p>
+<p>adject（）时间复杂度为O(logn)，共调用n-1次；</p>
+<p>则总时间复杂度为：<strong>O(nlogn)</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -394,7 +484,7 @@ src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -407,7 +497,7 @@ src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
