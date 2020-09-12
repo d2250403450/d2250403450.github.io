@@ -155,6 +155,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/leetcode-198-213%EF%BC%88%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a1.jpg">
+      <meta itemprop="name" content="全能神">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alan Faker">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/08/leetcode-198-213%EF%BC%88%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%89/" class="post-title-link" itemprop="url">leetcode:198,213（动态规划）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-08 13:05:20" itemprop="dateCreated datePublished" datetime="2020-07-08T13:05:20+08:00">2020-07-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-18 12:41:33" itemprop="dateModified" datetime="2020-07-18T12:41:33+08:00">2020-07-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="leetcode-198-213（动态规划）"><a href="#leetcode-198-213（动态规划）" class="headerlink" title="leetcode:198,213（动态规划）"></a>leetcode:198,213（动态规划）</h1><h2 id="一-leetcode-198"><a href="#一-leetcode-198" class="headerlink" title="一.leetcode:198"></a>一.leetcode:198</h2><h3 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h3><p>由于不能拿取连续两个位置，因此每个位置存在两种情况：</p>
+<p>1：若要偷窃第i间房屋，则不能偷窃第i-1间房屋，因此偷窃的总金额为第i间和前i-2间房的最大值之和。</p>
+<p>2：若不偷窃第i间房屋，则偷窃总金额为前i-1间房屋的最大值。</p>
+<h3 id="动态规划方程："><a href="#动态规划方程：" class="headerlink" title="动态规划方程："></a>动态规划方程：</h3><p><strong>dp[i]=max( dp[i-1] , dp[i-2]+nums[i] )</strong> </p>
+<h3 id="代码1："><a href="#代码1：" class="headerlink" title="代码1："></a>代码1：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">if</span> (len == <span class="number">0</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;dp(len, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (i - <span class="number">2</span> &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">			dp[i] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>], dp[i - <span class="number">2</span>] + nums[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (i - <span class="number">1</span> &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">			dp[i] = <span class="built_in">max</span>(nums[i - <span class="number">1</span>], nums[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			dp[i] = nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp[len - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="改进："><a href="#改进：" class="headerlink" title="改进："></a>改进：</h3><p>因为每个位置只与前两个位置的最高金额有关，因此可以使用滚动数组的方式，在每个时刻只需要存储前两个位置的总金额。</p>
+<h3 id="代码2："><a href="#代码2：" class="headerlink" title="代码2："></a>代码2：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pre1 = <span class="number">0</span>, pre2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> temp = <span class="built_in">max</span>(pre1, pre2 + nums[i]);</span><br><span class="line">        pre2 = pre1;</span><br><span class="line">        pre1 = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pre1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="leetcode-213"><a href="#leetcode-213" class="headerlink" title="leetcode:213"></a>leetcode:213</h2><h3 id="思路：-1"><a href="#思路：-1" class="headerlink" title="思路："></a>思路：</h3><p>由于该问题将数组调整为环形，因此第0个位置和第len个位置也属于相邻位置，因此不同时偷窃。</p>
+<p>可以把一个环型数组的问题改变为两个线性数组问题。</p>
+<h3 id="线性数组的动态规划："><a href="#线性数组的动态规划：" class="headerlink" title="线性数组的动态规划："></a>线性数组的动态规划：</h3><p>该代码的目的为求取一个线性数组的最大偷窃值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dprob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> pre1 = <span class="number">0</span>, pre2 = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = left; i &lt;= right; i++) &#123;</span><br><span class="line">		<span class="keyword">int</span> cur = <span class="built_in">max</span>(pre1, pre2 + nums[i]);</span><br><span class="line">		pre2 = pre1;</span><br><span class="line">		pre1 = cur;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> pre1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="环形数组的分解问题："><a href="#环形数组的分解问题：" class="headerlink" title="环形数组的分解问题："></a>环形数组的分解问题：</h3><p>由于第0位置和第len-1位置不能同时窃取，因此可以把环形数组划分为 <strong>[ 0 , len-2 ]</strong>和 <strong>[ 1 , len-1 ]</strong>。则总的环形数组动态规划的最大值就为两个分解的线性数组的最大值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (len == <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">max</span>(dprob(nums, <span class="number">0</span>, len - <span class="number">2</span>), dprob(nums, <span class="number">1</span>, len - <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dprob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pre1 = <span class="number">0</span>, pre2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = left; i &lt;= right; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> cur = <span class="built_in">max</span>(pre1, pre2 + nums[i]);</span><br><span class="line">        pre2 = pre1;</span><br><span class="line">        pre1 = cur;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pre1;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (len == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(dprob(nums, <span class="number">0</span>, len - <span class="number">2</span>), dprob(nums, <span class="number">1</span>, len - <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/leetcode435-%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4%EF%BC%88%E8%B4%AA%E5%BF%83%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -918,76 +1008,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/23/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a1.jpg">
-      <meta itemprop="name" content="全能神">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alan Faker">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/23/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-23 22:16:00" itemprop="dateCreated datePublished" datetime="2020-06-23T22:16:00+08:00">2020-06-23</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1068,7 +1088,7 @@ src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
