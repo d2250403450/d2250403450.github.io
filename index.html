@@ -155,6 +155,66 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/12/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%E8%BD%AC%E4%B8%AD%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a1.jpg">
+      <meta itemprop="name" content="全能神">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alan Faker">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/12/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%E8%BD%AC%E4%B8%AD%E5%BA%8F/" class="post-title-link" itemprop="url">二叉树前序转中序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-12 14:42:34 / 修改时间：14:45:13" itemprop="dateCreated datePublished" datetime="2020-09-12T14:42:34+08:00">2020-09-12</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="二叉树前序转中序"><a href="#二叉树前序转中序" class="headerlink" title="二叉树前序转中序"></a>二叉树前序转中序</h1><h2 id="数组解法"><a href="#数组解法" class="headerlink" title="数组解法"></a>数组解法</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> pos;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;tree(<span class="number">105</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">creat</span><span class="params">(<span class="keyword">int</span> index, <span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> c = s[pos];</span><br><span class="line">	pos++;</span><br><span class="line">	<span class="keyword">if</span> (c == <span class="string">'#'</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	tree[index] = c;</span><br><span class="line">	creat(index * <span class="number">2</span> + <span class="number">1</span>, s);</span><br><span class="line">	creat(index * <span class="number">2</span> + <span class="number">2</span>, s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tratree</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (tree[index] == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> leftp = index * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> rightp = index * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line">	tratree(leftp);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; tree[index] &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">	tratree(rightp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">string</span> s;</span><br><span class="line">	<span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; s) &#123;</span><br><span class="line">		pos = <span class="number">0</span>;</span><br><span class="line">		creat(<span class="number">0</span>, s);</span><br><span class="line">		tratree(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结构体解法"><a href="#结构体解法" class="headerlink" title="结构体解法"></a>结构体解法</h2><h3 id="三-代码："><a href="#三-代码：" class="headerlink" title="三.代码："></a>三.代码：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">tnode</span> &#123;</span></span><br><span class="line">	<span class="keyword">char</span> val;</span><br><span class="line">	tnode* left, * right;</span><br><span class="line">	tnode(<span class="keyword">char</span> c)</span><br><span class="line">		:val(c), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> pos;</span><br><span class="line"></span><br><span class="line"><span class="function">tnode* <span class="title">creattree</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> c = s[pos];</span><br><span class="line">	pos++;</span><br><span class="line">	<span class="keyword">if</span> (c == <span class="string">'#'</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	tnode* root = <span class="keyword">new</span> tnode(c);</span><br><span class="line">	root-&gt;left = creattree(s);</span><br><span class="line">	root-&gt;right = creattree(s);</span><br><span class="line">	<span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">traversetree</span><span class="params">(tnode* root)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (root == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	traversetree(root-&gt;left);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">	traversetree(root-&gt;right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">string</span> s;</span><br><span class="line">	<span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; s) &#123;</span><br><span class="line">		tnode* root = creattree(s);</span><br><span class="line">		traversetree(root);</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/10/leetcode40:%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C%EF%BC%88%E9%80%92%E5%BD%92+%E5%89%AA%E6%9E%9D%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -949,87 +1009,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/leetcode435-%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4%EF%BC%88%E8%B4%AA%E5%BF%83%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a1.jpg">
-      <meta itemprop="name" content="全能神">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alan Faker">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/07/leetcode435-%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4%EF%BC%88%E8%B4%AA%E5%BF%83%EF%BC%89/" class="post-title-link" itemprop="url">leetcode435:无重叠区间（贪心）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-07 12:30:59" itemprop="dateCreated datePublished" datetime="2020-07-07T12:30:59+08:00">2020-07-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-18 12:40:31" itemprop="dateModified" datetime="2020-07-18T12:40:31+08:00">2020-07-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="leetcode435-无重叠区间（贪心）"><a href="#leetcode435-无重叠区间（贪心）" class="headerlink" title="leetcode435:无重叠区间（贪心）"></a>leetcode435:无重叠区间（贪心）</h1><h2 id="一-题目描述"><a href="#一-题目描述" class="headerlink" title="一.题目描述"></a>一.题目描述</h2><p>给定一个区间的集合vector&lt;vector<int>&gt;,找到需要移除区间的最小数量，使其余区间互不重叠。注：<strong>边界接触不代表边界重叠</strong>，如：[1,2],[2,3]两区间不重叠。</p>
-<h2 id="二-分析"><a href="#二-分析" class="headerlink" title="二.分析"></a>二.分析</h2><p>如果要找到需要移除的区间最小数量，可以把问题转化为：找到不重叠区间的最大数量。之后在用集合的总数减去不重叠区间的最大数量，就可以找到需要移除区间的最小数量。</p>
-<p>若要求区间集合中，不重叠区间的最大数量，可以使用贪心算法。将区间按照结束位置排序，迭代判断时，只需要记录当前区间覆盖的最大位置end，之后判断当前区间的开始位置是否大于等于end，即<strong>end&lt;=intervals[i][0]</strong>，若是，则可以更新end，<strong>end=intervals[i][1]</strong>。由于集合已经按结束位置从小到大排序，因此每次迭代更新都会寻找不重叠的最小end，以便于之后的迭代可以容纳更多区间。</p>
-<p>1.两个区间不重叠：<br>该情况下，不需要移除任何一个区间，并且将end更新为后面区间的结束位置。</p>
-<p>2.两个区间重叠，且后一个区间的终点在前一个区间终点之前。如：[1,3],[0,2],这种情况下，我们只使用后一个区间，即先结束的区间，这样可以为之后的区间留下更多空间。</p>
-<p>3.两个区间重叠，其前一个区间的终点在后一个区间终点之前，如：[0,2],[1,3],这种情况下，我们只使用前一个区间，即先结束的区间，这样可以为之后的区间留下更多空间。</p>
-<h2 id="三-代码"><a href="#三-代码" class="headerlink" title="三.代码"></a>三.代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">ccmp</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (v1[<span class="number">1</span>] == v2[<span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">return</span> v1[<span class="number">0</span>] &lt; v2[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> v1[<span class="number">1</span>] &lt; v2[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">eraseOverlapIntervals</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; intervals)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> row = intervals.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span>(row==<span class="number">0</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    sort(intervals.<span class="built_in">begin</span>(), intervals.<span class="built_in">end</span>(), ccmp);</span><br><span class="line">    <span class="keyword">int</span> temp = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">end</span> = intervals[<span class="number">0</span>][<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; row; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">end</span> &lt;= intervals[i][<span class="number">0</span>]) &#123;</span><br><span class="line">            temp++;</span><br><span class="line">            <span class="built_in">end</span> = intervals[i][<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> row - temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1110,7 +1089,7 @@ src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
