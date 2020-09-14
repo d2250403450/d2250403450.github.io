@@ -155,6 +155,112 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/10/%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a1.jpg">
+      <meta itemprop="name" content="全能神">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alan Faker">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/10/%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">股票问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-10 10:53:14" itemprop="dateCreated datePublished" datetime="2020-07-10T10:53:14+08:00">2020-07-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-18 12:45:41" itemprop="dateModified" datetime="2020-07-18T12:45:41+08:00">2020-07-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="股票问题"><a href="#股票问题" class="headerlink" title="股票问题"></a>股票问题</h1><h2 id="leetcode309-含冷冻期"><a href="#leetcode309-含冷冻期" class="headerlink" title="leetcode309:含冷冻期"></a>leetcode309:含冷冻期</h2><h3 id="一-动态规划思路："><a href="#一-动态规划思路：" class="headerlink" title="一.动态规划思路："></a>一.动态规划思路：</h3><h4 id="1-状态设定"><a href="#1-状态设定" class="headerlink" title="(1).状态设定"></a>(1).状态设定</h4><p>由于每一天有三种不同的状态：</p>
+<p>1：持有一支股票，对应的最大累积收益为dp[i][0]</p>
+<p>2:不持有股票，且处于冷冻期中（i-1天卖过股票），对应的最大累积收益为dp[i][1]</p>
+<p>3:不持有股票，且不处于冷冻期中（i-1天没有卖出股票），对应的最大累积收益为dp[i][2]</p>
+<h4 id="2-初始化状态"><a href="#2-初始化状态" class="headerlink" title="(2).初始化状态"></a>(2).初始化状态</h4><p>1.dp[0][0]代表第0天手上持有一支股票,prices[0]为股票第0天的价格（买入，所以减），因此<strong>dp[0][0]=-prices[0]</strong></p>
+<p>2.dp[0][1]和dp[0][2]都表示不持有股票，因此没有买股票，因此<strong>dp[0][1]=dp[0][2]=0</strong></p>
+<h4 id="3-转移方程"><a href="#3-转移方程" class="headerlink" title="(3).转移方程"></a>(3).转移方程</h4><p>1.对于dp[i][0],即目前持有一支股票，那么，这个股票可能是第i-1天就已经持有,且第i天没有卖出，即，<strong>dp[i][0]=dp[i-1][0]</strong>；也可能是第i-1天没有股票，且第i-1天不处于冷冻期，才能第i天买入，因此，<strong>dp[i][0]=dp[i-1][2]-prices[i]</strong>。</p>
+<p>综上所述，<strong>dp[i][0]=max(dp[i-1][0],dp[i-1][2]-prices[i])</strong></p>
+<p>2.对于dp[i][1]，代表第i天不持有任何股票且处于冷冻期，因此说明第i-1天卖出了股票，转移方程为：</p>
+<p><strong>dp[i][1]=dp[i-1][0]+prices[i]</strong></p>
+<p>3.对于dp[i][2],代表第i天不持有任何股票且不处于冷冻期。说明第i天没有进行任何操作，且第i-1天也不持有股票（若第i-1天持有股票，则第i天要么持有股票，要么处于冷冻期），若第i-1天不处于冷冻期，则dp[i][2]=dp[i-1][2];若第i-1天处于冷冻期，则dp[i][2]=dp[i-1][1]</p>
+<p>综上所述，<strong>dp[i][2]=max(dp[i-1][1],dp[i-1][2])</strong></p>
+<h4 id="4-动态规划最终值"><a href="#4-动态规划最终值" class="headerlink" title="(4).动态规划最终值"></a>(4).动态规划最终值</h4><p>由于最后一天存在三种状态，因此res=max(dp[n-1][0],dp[n-1][1],dp[n-1][2])。又因为若第i天持有股票，则无法卖出，没有意义，因此最终结果可以简化为：</p>
+<p><strong>res=max(dp[n-1][1],dp[n-1][2])</strong></p>
+<h4 id="5-代码"><a href="#5-代码" class="headerlink" title="(5).代码"></a>(5).代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len=prices.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(len==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;dp(len,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">3</span>,<span class="number">0</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>]=-prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;len;i++)&#123;</span><br><span class="line">            dp[i][<span class="number">0</span>]=<span class="built_in">max</span>(dp[i<span class="number">-1</span>][<span class="number">0</span>],dp[i<span class="number">-1</span>][<span class="number">2</span>]-prices[i]);</span><br><span class="line">            dp[i][<span class="number">1</span>]=dp[i<span class="number">-1</span>][<span class="number">0</span>]+prices[i];</span><br><span class="line">            dp[i][<span class="number">2</span>]=<span class="built_in">max</span>(dp[i<span class="number">-1</span>][<span class="number">1</span>],dp[i<span class="number">-1</span>][<span class="number">2</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(dp[len<span class="number">-1</span>][<span class="number">1</span>],dp[len<span class="number">-1</span>][<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="二-动态规划空间优化"><a href="#二-动态规划空间优化" class="headerlink" title="二.动态规划空间优化"></a>二.动态规划空间优化</h3><p>通过动态规划方程可以发现，每一天i的状态都只取决于第i-1天的状态值，因此无需存储不再需要的无关的值。</p>
+<h4 id="优化代码："><a href="#优化代码：" class="headerlink" title="优化代码："></a>优化代码：</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> len = prices.<span class="built_in">size</span>();</span><br><span class="line">       <span class="keyword">if</span> (len == <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">int</span> dp0 = -prices[<span class="number">0</span>];</span><br><span class="line">       <span class="keyword">int</span> dp1 = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> dp2 = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">           <span class="keyword">int</span> temp0 = <span class="built_in">max</span>(dp0, dp2 - prices[i]);</span><br><span class="line">           <span class="keyword">int</span> temp1 = dp0 + prices[i];</span><br><span class="line">           <span class="keyword">int</span> temp2 = <span class="built_in">max</span>(dp1, dp2);</span><br><span class="line">           dp0 = temp0;</span><br><span class="line">           dp1 = temp1;</span><br><span class="line">           dp2 = temp2;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="built_in">max</span>(dp1, dp2);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode714-含手续费"><a href="#leetcode714-含手续费" class="headerlink" title="leetcode714:含手续费"></a>leetcode714:含手续费</h2><h3 id="一-动态规划思路：-1"><a href="#一-动态规划思路：-1" class="headerlink" title="一.动态规划思路："></a>一.动态规划思路：</h3><h4 id="（1）状态设定"><a href="#（1）状态设定" class="headerlink" title="（1）状态设定"></a>（1）状态设定</h4><p>每一天具有两种状态：</p>
+<p>1.dp[i][0]表示第i天不持有股票的最大收益。</p>
+<p>2.dp[i][1]表示第i天持有股票的最大收益。</p>
+<h4 id="（2）初始化状态"><a href="#（2）初始化状态" class="headerlink" title="（2）初始化状态"></a>（2）初始化状态</h4><p>1.dp[0][0]表示第0天不持有股票，因此最大收益为0，即 <strong>dp[0][0]=0</strong>。</p>
+<p>2.dp[0][1]表示第0天持有股票，则算上买股票的支出和手续费， <strong>dp[0][1]=-prices[0]-fee</strong>。</p>
+<h4 id="（3）转移方程"><a href="#（3）转移方程" class="headerlink" title="（3）转移方程"></a>（3）转移方程</h4><p>1.对于dp[i][0],即第i天不持有股票，存在两种可能，即第i-1天不持有股票，<strong>dp[i][0]=dp[i-1][0]</strong>；第i-1天持有股票，且第i天出售该股票,<strong>dp[i][0]=dp[i-1][1]+prices[i]</strong>。</p>
+<p>综上所述：<strong>dp[i][0]=max(dp[i-1][0],dp[i-1][1]+prices[i])</strong></p>
+<p>2.对于dp[i][1],即第i天持有股票，存在两种可能，即第i-1天持有股票，<strong>dp[i][1]=dp[i-1][1]</strong>;第i-1天不持有股票，第i天持有股票，即第i天买入股票，<strong>dp[i][1]=dp[i-1][0]-prices[i]-fee</strong>。</p>
+<p>综上所述：<strong>dp[i][1]=max(dp[i-1][1],dp[i-1][0]-prices[i]-fee)</strong></p>
+<h4 id="4-动态规划终值"><a href="#4-动态规划终值" class="headerlink" title="(4)动态规划终值"></a>(4)动态规划终值</h4><p>由于最后一天存在两种状态，但是，最后一天持有股票没有意义，因此<strong>res=dp[n-1][0]</strong>。</p>
+<h4 id="5-代码："><a href="#5-代码：" class="headerlink" title="(5)代码："></a>(5)代码：</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = prices.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (len &lt;= <span class="number">1</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;dp(len, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2</span>, <span class="number">0</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>] - fee;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][<span class="number">0</span>], dp[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i]);</span><br><span class="line">            dp[i][<span class="number">1</span>] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][<span class="number">1</span>], dp[i - <span class="number">1</span>][<span class="number">0</span>] - prices[i] - fee);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[len - <span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="动态规划空间优化"><a href="#动态规划空间优化" class="headerlink" title="动态规划空间优化"></a>动态规划空间优化</h3><p>通过动态规划方程可以发现，每一天i的状态都只取决于第i-1天的状态值，因此无需存储不再需要的无关的值。</p>
+<h4 id="优化代码：-1"><a href="#优化代码：-1" class="headerlink" title="优化代码："></a>优化代码：</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = prices.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">if</span> (len &lt;= <span class="number">1</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> dp0 = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> dp1 = -prices[<span class="number">0</span>] - fee;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">		<span class="keyword">int</span> temp0 = <span class="built_in">max</span>(dp0, dp1 + prices[i]);</span><br><span class="line">		<span class="keyword">int</span> temp1 = <span class="built_in">max</span>(dp1, dp0 - prices[i] - fee);</span><br><span class="line">		dp0 = temp0;</span><br><span class="line">		dp1 = temp1;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/leetcode540-%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%94%AF%E4%B8%80%E5%85%83%E7%B4%A0%EF%BC%88%E4%BD%8D%E8%BF%90%E7%AE%97%EF%BC%8C%E4%BA%8C%E5%88%86%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -940,91 +1046,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/25/leetcode139-%E5%8D%95%E8%AF%8D%E5%88%92%E5%88%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a1.jpg">
-      <meta itemprop="name" content="全能神">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alan Faker">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/25/leetcode139-%E5%8D%95%E8%AF%8D%E5%88%92%E5%88%86/" class="post-title-link" itemprop="url">leetcode139.单词划分</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-25 11:21:00" itemprop="dateCreated datePublished" datetime="2020-06-25T11:21:00+08:00">2020-06-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-18 12:38:53" itemprop="dateModified" datetime="2020-07-18T12:38:53+08:00">2020-07-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="leetcode139-单词划分"><a href="#leetcode139-单词划分" class="headerlink" title="leetcode139.单词划分"></a>leetcode139.单词划分</h1><h2 id="一-递归"><a href="#一-递归" class="headerlink" title="一.递归"></a>一.递归</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">wordBreak2</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; wordDict)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;ss;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> x : wordDict) &#123;</span><br><span class="line">		ss.insert(x);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> wbreak2(s, ss, index);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>递归退出条件：index==s.size()说明整个string已经遍历完毕，且期间没有返回false，因此说明该sring可以被划分。</p>
-<p>wbreak函数运行时，每次在找到一个和集合中匹配的子字符串，就记录当前遍历位置，递归调用wbreak，计算剩下的部分是否可以被划分。若可以，即递归时wbreak()函数返回为true，则当前函数也返回true，即[0,index)可划分且[index，s.size())可划分。若递归时wbreak()函数返回为false，说明当前位置不可成功划分，则继续遍历string寻找下一个可划分位置。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">wbreak2</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;ss, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (index == s.<span class="built_in">size</span>()) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">string</span> temp;</span><br><span class="line">	<span class="keyword">while</span> (index &lt; s.<span class="built_in">size</span>()) &#123;</span><br><span class="line">		<span class="keyword">while</span> (index &lt; s.<span class="built_in">size</span>() &amp;&amp; ss.count(temp) == <span class="number">0</span>) &#123;</span><br><span class="line">				temp += s[index];</span><br><span class="line">				index++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (ss.count(temp) == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">bool</span> b=wbreak2(s, ss, index);</span><br><span class="line">			<span class="keyword">if</span> (b == <span class="literal">true</span>)<span class="keyword">return</span> b;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (index &lt; s.<span class="built_in">size</span>()) &#123;</span><br><span class="line">				temp += s[index];</span><br><span class="line">				index++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="二-动态规划"><a href="#二-动态规划" class="headerlink" title="二.动态规划"></a>二.动态规划</h2><p>dp[i]为一个bool值，表示[0,i)处的子字符串是否可以被正确划分。因此dp数组大小为：s.size()+1，dp[0]初始化为true；</p>
-<p>每当循环遍历string s时，i依次增大，需要判断[0,i)的子字符号是否可以被划分，具体方法时，在区间[0,i)中找到一个划分点，使得:</p>
-<p>1.存在一个j，0&lt;=j&lt;i,且dp[j]==true，即j之前的部分可以被划分；</p>
-<p>2.在集合中存在一个字符串s.substr（j，i-j)；</p>
-<p>以上两个条件说明[0,j)可以被划分，[j,i)部分可以被划分，则[0,i)之间的部分可以被划分，即dp[i]==true。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">wordBreak</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; wordDict)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">unordered_set</span>&lt;<span class="built_in">string</span>&gt;ss;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> x : wordDict) &#123;</span><br><span class="line">        ss.insert(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;dp(s.<span class="built_in">size</span>() + <span class="number">1</span>,<span class="literal">false</span>);</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">            <span class="built_in">string</span> t = s.substr(j, i - j);</span><br><span class="line">            <span class="keyword">if</span> (dp[j] == <span class="literal">true</span> &amp;&amp; ss.<span class="built_in">find</span>(t) != ss.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                dp[i] = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[s.<span class="built_in">size</span>()];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1105,7 +1126,7 @@ src="//music.163.com/outchain/player?type=1&id=80752440&auto=1&height=430">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
